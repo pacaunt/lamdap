@@ -28,7 +28,7 @@
 #pagebreak()
 
 = Referenceable Enum 
-#show: betterenum
+#show: betterenum.with(label-format: highlight)
 
 Kinetic Model of Ideal Gases describes the following: 
 #set enum(numbering: "T1")
