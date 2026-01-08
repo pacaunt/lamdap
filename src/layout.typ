@@ -1,0 +1,43 @@
+#import "utils.typ"
+
+#let _tag(value, name) = [#metadata((kind: utils.prefix + "_metadata", value: value))#name]
+/// Layouting an item
+/// <-----> <----------> <----------> <-------->
+/// indent  label-width  body-indent  label-sep body
+/// <-------------------------------> body
+/// left-margin
+/// Note that the `_tag` is used for referencing.
+#let _layout-item(item, styles) = {
+  h(-styles.left-margin + styles.indent)
+  box(width: styles.label-width, align(styles.label-align, item.label))
+  h(styles.label-sep + styles.body-indent)
+
+  item.body
+  
+  if "name" in item {
+    _tag(item.label, item.name)
+  }
+}
+
+/// Layout multiple items. For enum and list
+#let _layout-items(
+  items,
+  styles,
+) = {
+  styles.left-margin = styles.indent + styles.label-width + styles.body-indent
+  // use terms.item to react with par.leading.
+  terms(
+    hanging-indent: 0pt,
+    indent: 0pt,
+    separator: none,
+    terms.item(none, pad(
+      left: styles.left-margin,
+      grid(
+        // stroke: 1pt, // debugging
+        columns: 100%,
+        row-gutter: if styles.tight { par.leading } else { par.spacing },
+        ..items.map(item => _layout-item(item, styles))
+      ),
+    )),
+  )
+}
