@@ -11,7 +11,10 @@
 /// Note that the `_tag` is used for referencing.
 #let _layout-item(item, styles) = {
   h(-styles.left-margin + styles.indent)
-  box(width: styles.label-width, align(styles.label-align, item.label))
+  box(
+    width: styles.label-width, 
+    align(styles.label-align, item.label), 
+  )
   h(styles.label-sep + styles.body-indent)
 
   item.body

@@ -48,7 +48,7 @@
     numbers = enum-counter.get().slice(0, enum-level.get()) + numbers
   }
 
-  let label = numbering(styles.numbering, ..numbers)
+  let label = (styles.label-format)(numbering(styles.numbering, ..numbers))
 
   // for referencing
   if "label" in fields {
@@ -93,19 +93,10 @@
 /// Other styling stuff is available in standard Typst.
 #let fix-enum(
   ..items-styles,
-  label-width: auto,
-  label-align: right,
-  label-sep: 0pt,
 ) = {
   let items = items-styles.pos()
-  let styles = (
-    items-styles.named()
-      + (
-        label-width: label-width,
-        label-align: label-align,
-        label-sep: label-sep,
-      )
-  )
+  let styles = items-styles.named()
+      
   enum-level.update(n => n + 1)
 
   let processed = process-enum-items(items, styles)
@@ -145,12 +136,12 @@
 /// and the other styling arguments from the fix-enum function.
 /// 
 /// Configures enums to use custom layout and reference handling.
-#let betterenum(doc, ..styles, label-width: auto, label-align: right, label-sep: 0pt) = {
+#let betterenum(doc, ..styles, label-width: auto, label-align: right, label-sep: 0pt, label-format: l => l) = {
   set enum(..styles)
   show enum: it => {
     let fields = it.fields()
     let items = fields.remove("children")
-    fix-enum(..items, ..fields, label-width: label-width, label-align: label-align, label-sep: label-sep)
+    fix-enum(..items, ..fields, label-width: label-width, label-align: label-align, label-sep: label-sep, label-format: label-format)
   }
   show ref: ref-enum
   doc
