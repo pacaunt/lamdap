@@ -88,14 +88,15 @@
 
 #let ref-enum(it) = {
   let target = it.target
-  let elem = query(it.target).first()
+  let elems = query(it.target)
 
-  if elem == none {
-    return it
-  } else if elem.func() == enum.item {
-    return
-  } else if is-kind(elem, "_metadata") {
-    return elem.value.value
+  if elems == () {
+    return 
+  } 
+  // filter when the label was attached to both enum.item and our metadata.
+  if elems.any(e => e.func() == enum.item) and elems.any(e => is-kind(e, "_metadata")) {
+    let meta = elems.filter(e => is-kind(e, "_metadata"))
+    return meta.last().value.value
   } else {
     return it
   }

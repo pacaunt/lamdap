@@ -69,3 +69,17 @@ Tests
     #enum.item[Less messy Ref]<ref>
   From @ref It is so good. 
 ]
+
+
+#show: betterenum
+#show: bettelis 
+
+= Hi, This is Lamdap 
+#set text(top-edge: "bounds", bottom-edge: "bounds")
++ $#rect[$ a^2^2^2^2 $] integral_0^oo e/2 + 2$
++ $display(1/2 integral.cont a b x)$
+  #set enum(numbering: "E1.")
+  #enum.item[This must be referenced $vec(1, 1, 1)$]<a>
+  + Another Statement $display(F = m (dif^2 v)/(dif t^2))$
+  #enum.item[Here]<hence>
++ Since Statement of @a, Hence proves @hence
