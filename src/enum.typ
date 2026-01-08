@@ -1,9 +1,25 @@
 #import "utils.typ": is-kind, prefix
 #import "layout.typ": _layout-items
 
+/// State tracking the current nesting level of enumerations.
+/// Used to support hierarchical numbering in nested enums.
 #let enum-level = state(prefix + "_enum-level", 0)
+
+/// Counter maintaining enumeration numbers across all nesting levels.
+/// Stores an array where each index corresponds to a nesting level.
 #let enum-counter = counter(prefix + "_enum-counter")
 
+/// Processes a single enumeration item.
+/// 
+/// - fields: Tuple of (body, number) extracted from the enum item
+/// - index: Sequential position of this item (1-based)
+/// - styles: Dictionary containing enum styling options (numbering, full, etc.)
+/// 
+/// Returns a dictionary with:
+/// - body: The item content with counter updates applied
+/// - label: The formatted number label
+/// - number: The item's number value
+/// - name: (optional) Reference label if item has a label
 #let enum-item(fields, index, styles) = {
   let (body, number) = fields
   // handle the `auto` number
@@ -41,6 +57,12 @@
   (body: body, label: label, number: number)
 }
 
+/// Processes all enumeration items in a list.
+/// 
+/// - items: Array of enum items to process
+/// - styles: Dictionary containing enum styling options
+/// 
+/// Returns an array of processed items with calculated labels and numbers.
 #let process-enum-items(items, styles) = {
   let index = 1
   let processed = ()
@@ -60,6 +82,15 @@
   return processed
 }
 
+/// Main enumeration layout handler. Processes items and applies formatting.
+/// 
+/// Parameters:
+/// - items-styles: Positional args are enum items; named args are enum styles
+/// Additional parameters for configuration of the label are:
+/// - label-width: Width of label column (auto-calculated if auto)
+/// - label-align: Horizontal alignment of labels (default: right)
+/// - label-sep: Space between label and body (default: 0pt)
+/// Other styling stuff is available in standard Typst.
 #let fix-enum(
   ..items-styles,
   label-width: auto,
@@ -86,12 +117,18 @@
   enum-level.update(n => n - 1)
 }
 
+/// Custom reference handler for enumeration items.
+/// Resolves cross-references to enum items by returning their formatted labels.
+/// 
+/// - it: Reference element with target label
+/// 
+/// Returns the formatted number label and left other label discarded.
 #let ref-enum(it) = {
   let target = it.target
   let elems = query(it.target)
 
   if elems == () {
-    return 
+    panic("Reference Error: Label does not exist.")
   } 
   // filter when the label was attached to both enum.item and our metadata.
   if elems.any(e => e.func() == enum.item) and elems.any(e => is-kind(e, "_metadata")) {
@@ -102,6 +139,12 @@
   }
 }
 
+/// Show rule that applies enhanced enumeration formatting to the document.
+/// 
+/// - doc: The document content to process
+/// and the other styling arguments from the fix-enum function.
+/// 
+/// Configures enums to use custom layout and reference handling.
 #let betterenum(doc, ..styles, label-width: auto, label-align: right, label-sep: 0pt) = {
   set enum(..styles)
   show enum: it => {

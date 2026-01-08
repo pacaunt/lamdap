@@ -82,4 +82,4 @@ Tests
   #enum.item[This must be referenced $vec(1, 1, 1)$]<a>
   + Another Statement $display(F = m (dif^2 v)/(dif t^2))$
   #enum.item[Here]<hence>
-+ Since Statement of @a, Hence proves @hence
++ Since Statement of @a, Hence proves @hence 
