@@ -29,6 +29,7 @@
 #let _layout-items(
   items,
   styles,
+  debug: false,
 ) = {
   styles.left-margin = styles.indent + styles.label-width + styles.body-indent
   // HACK: use terms.item to react with par.leading.
@@ -40,7 +41,7 @@
     terms.item(none, pad(
       left: styles.left-margin,
       grid(
-        stroke: 1pt, // debugging
+        stroke: if debug { 1pt }, // debugging
         columns: 100%,
         row-gutter: if styles.tight { par.leading } else { par.spacing },
         ..items.map(item => _layout-item(item, styles))
