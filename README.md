@@ -1,5 +1,5 @@
 # Lamdap
-An attempt to fix native Typst ordered and unordered list layout
+An attempt to fix native Typst ordered and unordered list layout ([#1204](https://github.com/typst/typst/issues/1204))
 
 ## Usage 
 ```typ
@@ -10,7 +10,7 @@ An attempt to fix native Typst ordered and unordered list layout
 // go with your flow.
 ```
 ## Comparison 
-<img src="./docs/assets/example1.png"/>
+<img src="https://github.com/pacaunt/lamdap/blob/main/docs/assets/example1.png"/>
 
 ## Features 
 - Fix `enum` and `list` baseline shift. 
@@ -28,5 +28,5 @@ Kinetic Model of Ideal Gases describes the following:
 From @interact, We can ignore the effect of intermolecular forces.
 ```
 
-<img src="./docs/assets/example2.png"/>
+<img src="https://github.com/pacaunt/lamdap/blob/main/docs/assets/example2.png"/>
 

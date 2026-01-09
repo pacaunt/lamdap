@@ -4,9 +4,10 @@
 /// Layouting an item. The structure is 
 /// 
 /// <-----> <----------> <----------> <--------> |--------|
-/// indent  label-width  body-indent  label-sep  |  body  |
+/// indent  label-width  body-indent  label-sep  |        |
 /// <-------------------------------> |----------|        |
-///            left-margin            |-------------------|
+///            left-margin            |       body        |
+///                                   |-------------------|
 /// 
 /// Note that the `_tag` is used for referencing.
 #let _layout-item(item, styles) = {
@@ -15,7 +16,7 @@
     width: styles.label-width, 
     align(styles.label-align, item.label), 
   )
-  h(styles.label-sep + styles.body-indent)
+  h(styles.label-sep + styles.body-indent, weak: true)
 
   item.body
   
@@ -39,7 +40,7 @@
     terms.item(none, pad(
       left: styles.left-margin,
       grid(
-        // stroke: 1pt, // debugging
+        stroke: 1pt, // debugging
         columns: 100%,
         row-gutter: if styles.tight { par.leading } else { par.spacing },
         ..items.map(item => _layout-item(item, styles))

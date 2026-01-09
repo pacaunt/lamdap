@@ -70,12 +70,12 @@ Tests
   From @ref It is so good. 
 ]
 
-
+#[
 #show: betterenum
 #show: bettelis 
 
 = Hi, This is Lamdap 
-#set text(top-edge: "bounds", bottom-edge: "bounds")
+// #set text(top-edge: "bounds", bottom-edge: "bounds")
 + $#rect[$ a^2^2^2^2 $] integral_0^oo e/2 + 2$
 + $display(1/2 integral.cont a b x)$
   #set enum(numbering: "E1.")
@@ -121,3 +121,32 @@ Tests
 $pi stretch(<->)^#[dfdfasdgsdgdfgasdgfsdfdsf a] J^2$
 
 This is not normal operation for such games. $A = B^3$
+]
+
+#set page(height: auto, margin: 35pt)
+#let item-test = [
+  + one $vec(1, 1, 1)$
+    $
+      x^2 + y^2 = z^2
+    $
+  + #context v(-par.leading - par.spacing)#rect(height: 2em, width: 2em) #lorem(2)
+  + #context v(-par.leading - par.spacing)#block(stroke: 1pt)[two $vec(1, 1, 1,)$]
+  + #context v(-par.leading - par.spacing)$ (a + b)^2 = a^2 + 2a b + b^2 $
+  + + #lorem(2)
+  + - #lorem(2)
+    - #lorem(2)
+]
+
+#set enum(numbering: "1.")
+#table(
+  columns: (1fr, 1fr),
+  [native], [itemize],
+  [
+    #item-test
+  ],
+  [
+    #show: betterenum
+    #show: bettelis
+    #item-test
+  ],
+)

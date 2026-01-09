@@ -49,12 +49,13 @@
   }
 
   let label = (styles.label-format)(numbering(styles.numbering, ..numbers))
+  let label-size = measure(label)
 
   // for referencing
   if "label" in fields {
     (name: fields.label)
   }
-  (body: body, label: label, number: number)
+  (body: body, label: label, number: number, label-height: label-size.height, label-width: label-size.width)
 }
 
 /// Processes all enumeration items in a list.
@@ -137,12 +138,12 @@
 /// and the other styling arguments from the fix-enum function.
 /// 
 /// Configures enums to use custom layout and reference handling.
-#let betterenum(doc, ..styles, label-width: auto, label-align: right, label-sep: 0pt, label-format: l => l) = {
+#let betterenum(doc, ..styles, label-width: auto, label-align: right, label-sep: 0pt, label-format: l => l, label-height: auto) = {
   set enum(..styles)
   show enum: it => {
     let fields = it.fields()
     let items = fields.remove("children")
-    fix-enum(..items, ..fields, label-width: label-width, label-align: label-align, label-sep: label-sep, label-format: label-format)
+    fix-enum(..items, ..fields, label-width: label-width, label-align: label-align, label-sep: label-sep, label-format: label-format, label-height: label-height)
   }
   show ref: ref-enum
   doc
