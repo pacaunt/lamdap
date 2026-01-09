@@ -123,8 +123,9 @@
   } 
   // filter when the label was attached to both enum.item and our metadata.
   if elems.any(e => e.func() == enum.item) and elems.any(e => is-kind(e, "_metadata")) {
-    let meta = elems.filter(e => is-kind(e, "_metadata"))
-    return meta.last().value.value
+    let meta = elems.filter(e => is-kind(e, "_metadata")).last()
+    let loc = elems.filter(e => e.func() == enum.item).last().location()
+    return link(loc, meta.value.value)
   } else {
     return it
   }
